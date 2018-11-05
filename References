@@ -1,0 +1,4 @@
+A list of references and previous/related work with respect to improving the accuracy results on the Google QuickDraw kaggle competition.
+
+MobileNets: Efficient Convolutional Neural Networks for Mobiles Vision Applications: https://arxiv.org/pdf/1704.04861.pdf 
+Kernel: https://www.kaggle.com/gaborfodor/greyscale-mobilenet-lb-0-892
