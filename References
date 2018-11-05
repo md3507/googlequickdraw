@@ -2,3 +2,26 @@ A list of references and previous/related work with respect to improving the acc
 
 MobileNets: Efficient Convolutional Neural Networks for Mobiles Vision Applications: https://arxiv.org/pdf/1704.04861.pdf 
 Kernel: https://www.kaggle.com/gaborfodor/greyscale-mobilenet-lb-0-892
+
+
+Transfer Learning Explanation: https://www.tensorflow.org/hub/tutorials/image_retraining
+                               https://machinelearningmastery.com/transfer-learning-for-deep-learning/
+General Overview: https://medium.com/@yu4u/why-mobilenet-and-its-variants-e-g-shufflenet-are-fast-1c7048b9618d
+ImageNet: http://www.image-net.org/
+
+
+Potential Architecture Changes:
+  SqueezeNet: https://arxiv.org/pdf/1602.07360.pdf
+              https://github.com/DeepScale/SqueezeNet
+            
+  ShuffleNet: https://medium.com/syncedreview/shufflenet-an-extremely-efficient-convolutional-neural-network-for-mobile-devices-72c6f5b01651
+              https://github.com/MG2033/ShuffleNet
+  
+  MobileNetv2: https://arxiv.org/pdf/1801.04381.pdf
+               https://github.com/tensorflow/models/tree/master/research/slim/nets/mobilenet
+               https://ai.googleblog.com/2018/04/mobilenetv2-next-generation-of-on.html
+               
+  Downsampling MobileNet: https://arxiv.org/pdf/1802.03750.pdf
+ 
+  Freezing: https://arxiv.org/pdf/1706.04983.pdf
+  Stochastic Depth: https://arxiv.org/abs/1603.09382
