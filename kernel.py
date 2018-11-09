@@ -124,7 +124,7 @@ def df_to_image_array_xd(df, size, lw=6, time_color=True):
     
     
     
- valid_df = pd.read_csv(os.path.join(DP_DIR, 'train_k{}.csv.gz'.format(NCSVS - 1)), nrows=34000)
+valid_df = pd.read_csv(os.path.join(DP_DIR, 'train_k{}.csv.gz'.format(NCSVS - 1)), nrows=34000)
 x_valid = df_to_image_array_xd(valid_df, size)
 y_valid = keras.utils.to_categorical(valid_df.y, num_classes=NCATS)
 print(x_valid.shape, y_valid.shape)
