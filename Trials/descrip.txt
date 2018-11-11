@@ -1,0 +1,3 @@
+This folder contrains sample runs from our Kaggle Kernels and Google Cloud projects.
+
+It serves as a form of checkpoint documentations. 
