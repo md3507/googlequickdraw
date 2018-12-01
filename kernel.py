@@ -132,6 +132,26 @@ from skimage.morphology import black_tophat, skeletonize, convex_hull_image
 from skimage.morphology import disk
 
 
+def binary(x):
+    arr = np.zeros((128,128,3))
+    for i in range(len(x)):
+        for j in range(len(x[0])):
+            temp = x[i][j][0]
+            if temp > 0:
+                arr[i][j] = (1,1,1)
+    return arr
+
+def morph(x):
+    image = binary(x)
+    im = closing(image)
+    im = closing(im)
+    im = opening(im)
+    return im
+    
+    
+    
+    
+
 
 valid_df = pd.read_csv(os.path.join(DP_DIR, 'train_k{}.csv.gz'.format(NCSVS - 1)), nrows=34000)
 x_valid = df_to_image_array_xd(valid_df, size)
