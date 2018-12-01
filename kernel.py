@@ -123,12 +123,42 @@ def df_to_image_array_xd(df, size, lw=6, time_color=True):
     return x
     
     
-    
+from matplotlib import pyplot as plt
+from skimage.data import data_dir
+from skimage.util import img_as_ubyte
+from skimage import io
+from skimage.morphology import erosion, dilation, opening, closing, white_tophat
+from skimage.morphology import black_tophat, skeletonize, convex_hull_image
+from skimage.morphology import disk
+
+
+
 valid_df = pd.read_csv(os.path.join(DP_DIR, 'train_k{}.csv.gz'.format(NCSVS - 1)), nrows=34000)
 x_valid = df_to_image_array_xd(valid_df, size)
 y_valid = keras.utils.to_categorical(valid_df.y, num_classes=NCATS)
-print(x_valid.shape, y_valid.shape)
-print('Validation array memory {:.2f} GB'.format(x_valid.nbytes / 1024.**3 ))
+
+
+x = x_valid[0]
+
+def RGB(x):
+    arr = np.zeros((128,128,3))
+    for i in range(len(x)):
+        for j in range(len(x[0])):
+            temp = x[i][j][0]
+            if temp < 0:
+                arr[i][j][0] = 1
+    return arr
+
+image = RGB(x)
+plt.imshow(image)
+
+#selem = disk(6)
+#eroded = erosion(x, selem)
+
+#plt.imshow(eroded)
+
+#print(x_valid.shape, y_valid.shape)
+#print('Validation array memory {:.2f} GB'.format(x_valid.nbytes / 1024.**3 ))
 
 train_datagen = image_generator_xd(size=size, batchsize=batchsize, ks=range(NCSVS - 1))
 
