@@ -142,15 +142,28 @@ def binary(x):
     return arr
 
 def morph(x):
-    image = binary(x)
-    im = closing(image)
+    im = dilation(x)
     im = closing(im)
-    im = opening(im)
-    return im
+    return im 
+
+def total_morphology(x):
+    im_morph = morph(binary(x))
+    arr = np.zeros((128,128,1))
+    for i in range(len(im_morph)):
+        for j in range(len(im_morph[0])):
+            arr[i][j] = im_morph[i][j][0]
+    return arr
+                
+
+    ''' morphs the x_validation using the 
+    total_morphology function''' 
     
+for i in range(len(x_valid)):
+    x_valid[i] = total_morphology(x_valid[i])
+    if i % 100 == 0:
+        print("Morphed: ", i, " total")
     
-    
-    
+ 
 
 
 valid_df = pd.read_csv(os.path.join(DP_DIR, 'train_k{}.csv.gz'.format(NCSVS - 1)), nrows=34000)
