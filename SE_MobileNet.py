@@ -1,9 +1,3 @@
-
-# coding: utf-8
-
-# In[2]:
-
-
 get_ipython().run_line_magic('matplotlib', 'inline')
 from IPython.core.interactiveshell import InteractiveShell
 InteractiveShell.ast_node_interactivity = "all"
@@ -21,6 +15,7 @@ import tensorflow as tf
 import keras
 from keras.layers import Conv2D, MaxPooling2D, Input, concatenate
 from keras.layers import Dense, Dropout, Flatten, Activation,GlobalAveragePooling2D
+from keras.layers import GlobalAveragePooling2D, Reshape, Dense, multiply
 from keras.metrics import categorical_accuracy, top_k_categorical_accuracy, categorical_crossentropy
 from keras.models import Sequential, Model
 from keras.callbacks import EarlyStopping, ReduceLROnPlateau, ModelCheckpoint
@@ -32,22 +27,15 @@ from keras.preprocessing.sequence import pad_sequences
 start = dt.datetime.now()
 
 
-# In[5]:
-
-
 STEPS = 800
 EPOCHS = 30
 size = 128
 batchsize = 340
-
 NCATS = 340
 
-
-# In[24]:
-
-
-from keras.layers import GlobalAveragePooling2D, Reshape, Dense, multiply
 base_model = MobileNet(input_shape=(size, size,3), alpha=1., weights="imagenet", include_top = False)
+
+''' The creation of the Squeeze Excitation Convolution Layer'''
 inp = base_model.input
 x = base_model.output
 se = GlobalAveragePooling2D()(x)
@@ -56,32 +44,17 @@ shape = (1,1,filters)
 se = Reshape(shape)(se)
 se = Dense(filters // 16, activation = "relu", kernel_initializer= "he_normal", use_bias=False)(se)
 se = Dense(filters, activation = "sigmoid", kernel_initializer = "he_normal", use_bias = False)(se)
-
-print("Inp shape: ", inp._keras_shape)
-print("x shape: ", x._keras_shape)
 output = multiply([x, se])
 
+
+''' Printing the shape to verify that the network added with the
+    SE works properly '''
+print("Inp shape: ", inp._keras_shape)
+print("x shape: ", x._keras_shape)
 print("Output shape: ", output._keras_shape)
 
+
+''' Combining the output of SE with the input of MobileNet '''
 model = Model(inp, output)
-
-
-
-
-
-
-
-base_model = Sequential(model.layers[:-2])
-
-
-# In[22]:
-
-
 print(model.summary())
-
-
-# In[23]:
-
-
-print(base_model.summary())
 
