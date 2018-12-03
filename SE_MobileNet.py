@@ -1,3 +1,10 @@
+''' Not a running network 
+    This just has the test code used to verify the 
+    SE block, and to see whether it can be combined
+    in a MobileNet architecture and then later 
+    to be used in Kaggle
+'''
+
 get_ipython().run_line_magic('matplotlib', 'inline')
 from IPython.core.interactiveshell import InteractiveShell
 InteractiveShell.ast_node_interactivity = "all"
@@ -35,22 +42,23 @@ NCATS = 340
 
 base_model = MobileNet(input_shape=(size, size,3), alpha=1., weights="imagenet", include_top = False)
 
-''' The creation of the Squeeze Excitation Convolution Layer'''
+''' The creation of the Squeeze Excitation Convolution Layer
+can be used in various different models; tested with MobileNet, and DenseNet'''
 inp = base_model.input
-x = base_model.output
+out = base_model.output
 se = GlobalAveragePooling2D()(x)
-filters = x._keras_shape[-1]
-shape = (1,1,filters)
+dimensions = out._keras_shape[-1]
+shape = (1,1,dimensions)
 se = Reshape(shape)(se)
-se = Dense(filters // 16, activation = "relu", kernel_initializer= "he_normal", use_bias=False)(se)
-se = Dense(filters, activation = "sigmoid", kernel_initializer = "he_normal", use_bias = False)(se)
-output = multiply([x, se])
+se = Dense(dimensions, activation = "relu")(se)
+se = Dense(dimensions, activation = "sigmoid")(se)
+output = multiply([out se])
 
 
 ''' Printing the shape to verify that the network added with the
     SE works properly '''
 print("Inp shape: ", inp._keras_shape)
-print("x shape: ", x._keras_shape)
+print("Out shape: ", out._keras_shape)
 print("Output shape: ", output._keras_shape)
 
 
